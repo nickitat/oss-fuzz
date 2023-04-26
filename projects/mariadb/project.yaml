@@ -2,8 +2,3 @@ homepage: "https://mariadb.org/"
 language: c++
 primary_contact: "david@adalogics.com"
 main_repo: 'https://github.com/MariaDB/server'
-fuzzing_engines:
- - afl
- - honggfuzz
- - libfuzzer
- - centipede
