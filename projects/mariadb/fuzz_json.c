@@ -13,9 +13,9 @@ limitations under the License.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <json_lib.h>
-#include <my_sys.h>
 #include <tap.h>
+#include <my_sys.h>
+#include <json_lib.h>
 
 #define FUZZ_KEY_SIZE 32
 
