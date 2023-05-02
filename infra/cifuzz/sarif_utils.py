@@ -18,6 +18,8 @@ import json
 
 from clusterfuzz import stacktraces
 
+import fuzz_target
+
 SARIF_RULES = [
     {
         'id': 'no-crashes',
@@ -158,7 +160,7 @@ def redact_src_path(src_path):
 def get_error_frame(crash_info):
   """Returns the stackframe where the error occurred."""
   if not crash_info.crash_state:
-    return None
+    return data
   state = crash_info.crash_state.split('\n')[0]
 
   for crash_frames in crash_info.frames:
@@ -190,6 +192,10 @@ def get_rule_index(crash_type):
 
 def get_sarif_data(stacktrace, target_path):
   """Returns a description of the crash in SARIF."""
+  data = copy.deepcopy(SARIF_DATA)
+  if stacktrace is None:
+    return None
+
   fuzz_target = os.path.basename(target_path)
   stack_parser = stacktraces.StackParser(fuzz_target=fuzz_target,
                                          symbolized=True,
@@ -220,7 +226,6 @@ def get_sarif_data(stacktrace, target_path):
       'ruleId': 'no-crashes',
       'ruleIndex': get_rule_index(crash_info.crash_type)
   }
-  data = copy.deepcopy(SARIF_DATA)
   data['runs'][0]['results'].append(result)
   return data
 
